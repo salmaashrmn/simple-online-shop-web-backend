@@ -1,0 +1,5 @@
+# Created at 2024-05-27T11:10:20.438
+Boot Manifest-JAR contains absolute paths in classpath 'D:\79\GAP\Task 1 BTPN\simple-online-shop-web-backend\target\test-classes'
+Hint: <argLine>-Djdk.net.URLClassPath.disableClassPathURLCheck=true</argLine>
+'other' has different root
+
