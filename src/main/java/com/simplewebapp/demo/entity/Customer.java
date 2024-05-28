@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Data
@@ -43,4 +44,7 @@ public class Customer implements Serializable {
 
     @Column(name = "pic")
     private String pic;
+
+    @OneToMany(mappedBy = "customer")
+    Set<Order> orders;
 }

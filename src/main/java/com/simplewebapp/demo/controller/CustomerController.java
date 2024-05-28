@@ -32,13 +32,13 @@ public class CustomerController {
 
     @PostMapping("/create")
     @ResponseBody
-    public ResponseEntity.BodyBuilder createCustomer(CustomerReqDto request){
+    public ResponseEntity.BodyBuilder createCustomer(@RequestBody CustomerReqDto request){
         return customerCreateService.create(request);
     }
 
     @PutMapping("/update")
     @ResponseBody
-    public ResponseEntity.BodyBuilder updateCustomer(CustomerUpdateReqDto request){
+    public ResponseEntity.BodyBuilder updateCustomer(@RequestBody CustomerUpdateReqDto request){
         return customerUpdateService.update(request);
     }
 
