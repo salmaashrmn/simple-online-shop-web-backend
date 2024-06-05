@@ -14,7 +14,7 @@ public class ItemListService {
     private ItemRepository itemRepository;
 
     public ResponseEntity<List<Item>> list(){
-        List<Item> items = itemRepository.findAll();
+        List<Item> items = itemRepository.findByIsAvailable(0);
 
         if(items.isEmpty() || items==null){
             throw new RuntimeException("Data not found");

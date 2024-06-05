@@ -1,9 +1,11 @@
 package com.simplewebapp.demo.controller;
 
+import com.simplewebapp.demo.dto.ResponseDto;
 import com.simplewebapp.demo.dto.customer.CustomerReqDto;
 import com.simplewebapp.demo.dto.customer.CustomerUpdateReqDto;
 import com.simplewebapp.demo.entity.Customer;
 import com.simplewebapp.demo.service.customer.*;
+import lombok.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/customer")
+@CrossOrigin(origins = "http://localhost:4200")
 public class CustomerController {
     @Autowired
     private CustomerListService customerListService;
@@ -32,19 +35,19 @@ public class CustomerController {
 
     @PostMapping("/create")
     @ResponseBody
-    public ResponseEntity.BodyBuilder createCustomer(@RequestBody CustomerReqDto request){
+    public ResponseEntity<ResponseDto<Object>> createCustomer(@ModelAttribute @RequestBody CustomerReqDto request){
         return customerCreateService.create(request);
     }
 
     @PutMapping("/update")
     @ResponseBody
-    public ResponseEntity.BodyBuilder updateCustomer(@RequestBody CustomerUpdateReqDto request){
+    public ResponseEntity<ResponseDto<Object>> updateCustomer(@RequestBody CustomerUpdateReqDto request){
         return customerUpdateService.update(request);
     }
 
-    @DeleteMapping("/update/{id}")
+    @DeleteMapping("/delete/{id}")
     @ResponseBody
-    public ResponseEntity.BodyBuilder deleteCustomer(@PathVariable Long id){
+    public ResponseEntity<ResponseDto<Object>> deleteCustomer(@PathVariable Long id){
         return customerDeleteService.delete(id);
     }
 

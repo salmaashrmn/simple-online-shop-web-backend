@@ -1,5 +1,6 @@
 package com.simplewebapp.demo.service.item;
 
+import com.simplewebapp.demo.dto.ResponseDto;
 import com.simplewebapp.demo.dto.item.ItemUpdateReqDto;
 import com.simplewebapp.demo.entity.Item;
 import com.simplewebapp.demo.repository.ItemRepository;
@@ -14,7 +15,7 @@ public class ItemUpdateService {
     @Autowired
     private ItemRepository itemRepository;
 
-    public ResponseEntity.BodyBuilder update(ItemUpdateReqDto req){
+    public ResponseEntity<ResponseDto<Object>> update(ItemUpdateReqDto req){
         Optional<Item> item = itemRepository.findById(req.getItemsId());
 
         if(item.isEmpty() || item==null){
@@ -28,6 +29,9 @@ public class ItemUpdateService {
 
         itemRepository.save(item.get());
 
-        return ResponseEntity.ok();
+        return ResponseEntity.ok(new ResponseDto<>().builder()
+                .code("202")
+                .message("Order succesfully updated")
+                .result(item.get()).build());
     }
 }

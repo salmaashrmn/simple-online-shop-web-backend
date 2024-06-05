@@ -1,5 +1,6 @@
 package com.simplewebapp.demo.controller;
 
+import com.simplewebapp.demo.dto.ResponseDto;
 import com.simplewebapp.demo.dto.item.ItemReqDto;
 import com.simplewebapp.demo.dto.item.ItemUpdateReqDto;
 import com.simplewebapp.demo.entity.Item;
@@ -12,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/items")
+@CrossOrigin(origins = "http://localhost:4200")
 public class ItemController {
     @Autowired
     private ItemListService itemListService;
@@ -32,19 +34,19 @@ public class ItemController {
 
     @PostMapping("/create")
     @ResponseBody
-    public ResponseEntity.BodyBuilder createItem(@RequestBody ItemReqDto request){
+    public ResponseEntity<ResponseDto<Object>> createItem(@RequestBody ItemReqDto request){
         return itemCreateService.create(request);
     }
 
     @PutMapping("/update")
     @ResponseBody
-    public ResponseEntity.BodyBuilder updateItem(@RequestBody ItemUpdateReqDto request){
+    public ResponseEntity<ResponseDto<Object>> updateItem(@RequestBody ItemUpdateReqDto request){
         return itemUpdateService.update(request);
     }
 
     @DeleteMapping("/delete/{id}")
     @ResponseBody
-    public ResponseEntity.BodyBuilder deleteItem(@PathVariable Long id){
+    public ResponseEntity<ResponseDto<Object>> deleteItem(@PathVariable Long id){
         return itemDeleteService.delete(id);
     }
 

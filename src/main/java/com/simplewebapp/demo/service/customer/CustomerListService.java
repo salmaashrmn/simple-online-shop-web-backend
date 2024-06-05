@@ -14,7 +14,7 @@ public class CustomerListService {
     private CustomerRepository customerRepository;
 
     public ResponseEntity<List<Customer>> list(){
-        List<Customer> customers = customerRepository.findAll();
+        List<Customer> customers = customerRepository.findByIsActive(0);
 
         if(customers.isEmpty()||customers==null){
             throw new RuntimeException("Data not found");

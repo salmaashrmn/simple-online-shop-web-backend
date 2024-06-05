@@ -1,5 +1,6 @@
 package com.simplewebapp.demo.service.customer;
 
+import com.simplewebapp.demo.dto.ResponseDto;
 import com.simplewebapp.demo.entity.Customer;
 import com.simplewebapp.demo.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,7 @@ public class CustomerDeleteService {
     @Autowired
     private CustomerRepository customerRepository;
 
-    public ResponseEntity.BodyBuilder delete(Long id){
+    public ResponseEntity<ResponseDto<Object>> delete(Long id){
         Optional<Customer> customer = customerRepository.findById(id);
 
         if(customer.isEmpty() || customer == null){
@@ -21,7 +22,11 @@ public class CustomerDeleteService {
         }
 
         customer.get().setIsActive(1);
+        customerRepository.save(customer.get());
 
-        return ResponseEntity.ok();
+        return ResponseEntity.ok(new ResponseDto<>().builder()
+                .code("200")
+                .message("Order succesfully deleted")
+                .result(null).build());
     }
 }

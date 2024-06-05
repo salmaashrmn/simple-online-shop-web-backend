@@ -41,6 +41,8 @@ public class OrderCreateService {
         newOrder.setTotalPrice(item.getPrice()*request.getQuantity());
 
         orderRepository.save(newOrder);
+        customer.setLastOrderDate(new Date());
+        customerRepository.save(customer);
 
         return ResponseEntity.ok(new ResponseDto<>().builder()
                 .code("202")

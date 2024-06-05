@@ -1,5 +1,6 @@
 package com.simplewebapp.demo.service.customer;
 
+import com.simplewebapp.demo.dto.ResponseDto;
 import com.simplewebapp.demo.dto.customer.CustomerUpdateReqDto;
 import com.simplewebapp.demo.entity.Customer;
 import com.simplewebapp.demo.repository.CustomerRepository;
@@ -14,7 +15,7 @@ public class CustomerUpdateService {
     @Autowired
     private CustomerRepository customerRepository;
 
-    public ResponseEntity.BodyBuilder update(CustomerUpdateReqDto request){
+    public ResponseEntity<ResponseDto<Object>> update(CustomerUpdateReqDto request){
         Optional<Customer> customer = customerRepository.findById(request.getId());
 
         if(customer.isEmpty() || customer == null){
@@ -26,11 +27,13 @@ public class CustomerUpdateService {
         customer.get().setCustomerAddress(request.getCustomerAddress());
         customer.get().setCustomerCode(request.getCustomerCode());
         customer.get().setCustomerPhone(request.getCustomerPhone());
-        customer.get().setIsActive(request.getIsActive());
         customer.get().setPic(request.getPic());
 
         customerRepository.save(customer.get());
 
-        return ResponseEntity.ok();
+        return ResponseEntity.ok(new ResponseDto<>().builder()
+                .code("202")
+                .message("Customer succesfully updated")
+                .result(customer.get()).build());
     }
 }

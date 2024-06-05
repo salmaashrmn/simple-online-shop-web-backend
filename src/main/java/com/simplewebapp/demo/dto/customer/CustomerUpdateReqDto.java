@@ -10,5 +10,4 @@ public class CustomerUpdateReqDto {
     private String customerCode;
     private String customerPhone;
     private String pic;
-    private int isActive;
 }

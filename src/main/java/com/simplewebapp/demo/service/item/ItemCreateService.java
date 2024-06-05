@@ -1,5 +1,6 @@
 package com.simplewebapp.demo.service.item;
 
+import com.simplewebapp.demo.dto.ResponseDto;
 import com.simplewebapp.demo.dto.item.ItemReqDto;
 import com.simplewebapp.demo.entity.Item;
 import com.simplewebapp.demo.repository.ItemRepository;
@@ -16,7 +17,7 @@ public class ItemCreateService {
     private ItemRepository itemRepository;
 
     @Transactional
-    public ResponseEntity.BodyBuilder create(ItemReqDto request){
+    public ResponseEntity<ResponseDto<Object>> create(ItemReqDto request){
         Item newItem = new Item();
         newItem.setItemsName(request.getItemsName());
         newItem.setItemsCode(request.getItemsCode());
@@ -27,6 +28,9 @@ public class ItemCreateService {
 
         itemRepository.save(newItem);
 
-        return ResponseEntity.ok();
+        return ResponseEntity.ok(new ResponseDto<>().builder()
+                .code("202")
+                .message("Order succesfully created")
+                .result(newItem).build());
     }
 }
