@@ -1,14 +1,18 @@
 package com.simplewebapp.demo.service.minio;
 
+import io.minio.GetObjectArgs;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
 import io.minio.errors.MinioException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StreamUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
@@ -35,6 +39,20 @@ public class MinioService {
         } catch (MinioException | IOException | NoSuchAlgorithmException | InvalidKeyException e) {
             e.printStackTrace();
             return "Error uploading file: " + e.getMessage();
+        }
+    }
+
+    public String getObject(String bucketName, String objectName) {
+        try {
+            InputStream inputStream = minioClient.getObject(
+                    GetObjectArgs.builder()
+                            .bucket(bucketName)
+                            .object(objectName)
+                            .build());
+            return StreamUtils.copyToString(inputStream, StandardCharsets.UTF_8);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
     }
 }

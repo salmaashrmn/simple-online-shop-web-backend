@@ -12,9 +12,10 @@ import java.util.Date;
 public class OrderRespDto {
     private Long orderId;
     private String orderCode;
-    private Date orderDate;
-    private Long totalPrice;
+    private String customerName;
+    private String itemName;
     private int quantity;
-    Customer customer;
-    Item item;
+    private Long totalPrice;
+    private Date orderDate;
+
 }

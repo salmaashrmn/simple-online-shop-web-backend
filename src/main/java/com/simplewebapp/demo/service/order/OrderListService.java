@@ -1,6 +1,7 @@
 package com.simplewebapp.demo.service.order;
 
 import com.simplewebapp.demo.dto.ResponseDto;
+import com.simplewebapp.demo.dto.order.OrderRespDto;
 import com.simplewebapp.demo.entity.Order;
 import com.simplewebapp.demo.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ public class OrderListService {
 
     public ResponseEntity<ResponseDto<Object>> list(){
         List<Order> orders = orderRepository.findAll();
-
+        List<OrderRespDto> result = orders.stream().map(this::mapToDto).toList();
         if(orders.isEmpty() || orders==null){
             return ResponseEntity.ok(new ResponseDto<>().builder()
                     .code("404")
@@ -27,6 +28,19 @@ public class OrderListService {
         return ResponseEntity.ok(new ResponseDto<>().builder()
                 .code("200")
                 .message("Success")
-                .result(orders).build());
+                .result(result).build());
+    }
+
+    private OrderRespDto mapToDto(Order order){
+        OrderRespDto dto = new OrderRespDto();
+        dto.setOrderId(order.getOrderId());
+        dto.setOrderCode(order.getOrderCode());
+        dto.setOrderDate(order.getOrderDate());
+        dto.setItemName(order.getItem().getItemsName());
+        dto.setCustomerName(order.getCustomer().getCustomerName());
+        dto.setQuantity(order.getQuantity());
+        dto.setTotalPrice(order.getTotalPrice());
+
+        return dto;
     }
 }

@@ -4,6 +4,7 @@ import com.simplewebapp.demo.dto.ResponseDto;
 import com.simplewebapp.demo.dto.order.OrderReqDto;
 import com.simplewebapp.demo.dto.order.OrderUpdateReqDto;
 import com.simplewebapp.demo.service.order.*;
+import net.sf.jasperreports.engine.JRException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +23,8 @@ public class OrderController {
     private OrderDeleteService orderDeleteService;
     @Autowired
     private OrderDetailService orderDetailService;
+    @Autowired
+    private OrderReportService orderReportService;
 
     @PostMapping("/list")
     @ResponseBody
@@ -51,5 +54,11 @@ public class OrderController {
     @ResponseBody
     public ResponseEntity<ResponseDto<Object>> detailOrder(@PathVariable Long id){
         return orderDetailService.detail(id);
+    }
+
+    @GetMapping("/download")
+    @ResponseBody
+    public ResponseEntity<ResponseDto<Object>> report() throws JRException {
+        return orderReportService.exportReport();
     }
 }
